@@ -1,0 +1,33 @@
+server:
+  port: 8888
+
+
+spring:
+  application:
+    name: api-gateway-microservice
+  main:
+    web-application-type=reactive:
+  cloud:
+    gateway:
+      routes:
+        - id: departmentService
+          uri: http://192.168.0.12:9006/
+          predicates:
+            - Path=/rest/v1/departments/Finance
+        - id: salaryService
+          uri: http://192.168.0.12:9005/
+          predicates:
+            - Path=/rest/v1/salaries
+        - id: employeeService
+          uri: http://192.168.0.12:9007/
+          predicates:
+            - Path=/rest/v1/employees
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+  instance:
+    hostname: localhost
